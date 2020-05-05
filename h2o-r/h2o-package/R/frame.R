@@ -2931,6 +2931,46 @@ cor <- function (x, ...)
 }
 
 #'
+#' Correlation of columns.
+#'
+#' Compute the correlation matrix of one or two H2OFrames.
+#'
+#' @param x An H2OFrame object.
+#' @param y \code{NULL} (default) or an H2OFrame. The default is equivalent to y = x.
+#' @param na.rm \code{logical}. Should missing values be removed?
+#' @param use An optional character string indicating how to handle missing values. This must be one of the following:
+#'   "everything"            - outputs NaNs whenever one of its contributing observations is missing
+#'   "all.obs"               - presence of missing observations will throw an error
+#'   "complete.obs"          - discards missing values along with all observations in their rows so that only complete observations are used
+#' @param method \code{str} Method of correlation computation. Allowed values are:
+#' "Pearson" - Pearson's correlation coefficient
+#' "Spearman" - Spearman's correlation coefficient (Spearman's Rho)
+#' Defaults to "Pearson"
+#' @examples
+#' \dontrun{
+#' library(h2o)
+#' h2o.init()
+#' 
+#' prostate_path <- system.file("extdata", "prostate.csv", package = "h2o")
+#' prostate <- h2o.uploadFile(path = prostate_path)
+#' cor(prostate$AGE)
+#' }
+#' @export
+h2o.drop_duplicates <- function(frame ,columns, keep = "first"){
+  if(missing(columns)) {
+    stop("Frame to drop duplicates in must be specified.")
+  }
+  
+  if(missing(columns)) {
+    stop("Columns to compare fo de-duplication process must be specified.")
+  }
+  
+  expr <- .newExpr("dropdup",frame,columns,.quote(keep))
+  if( (nrow(x)==1L || (ncol(x)==1L && ncol(y)==1L)) ) .eval.scalar(expr)
+  else .fetch.data(expr,ncol(x))
+}
+
+#'
 #' Standard Deviation of a column of data.
 #'
 #' Obtain the standard deviation of a column of data.

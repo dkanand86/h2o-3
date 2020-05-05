@@ -30,6 +30,11 @@ public class GLMUtils {
     }
     return gamColIndices;
   }
+  
+  public static GLM.GLMGradientInfo copyginfo(GLM.GLMGradientInfo ginfo) {
+    GLM.GLMGradientInfo tempGinfo = new GLM.GLMGradientInfo(ginfo._likelihood, ginfo._objVal, ginfo._gradient);
+    return tempGinfo;
+  }
 
   public static void updateGradGam(double[] gradient, double[][][] penalty_mat, int[][] gamBetaIndices, double[] beta,
                                    int[] activeCols) { // update gradient due to gam smoothness constraint
